@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\EmpleadosController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -15,6 +16,9 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+ //ruta para mostrar todos los empleados con react
+Route::get("/empleados", [EmpleadosController::class, "indexMostrar"])->middleware(['auth', 'verified'])->name("empleados");
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
