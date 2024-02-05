@@ -11,7 +11,6 @@ export default function ForgotPassword({ status }) {
 
     const submit = (e) => {
         e.preventDefault();
-
         post(route('password.email'));
     };
 
@@ -41,7 +40,7 @@ export default function ForgotPassword({ status }) {
                 <InputError message={errors.email} className="mt-2" />
 
                 <div className="flex items-center justify-center mt-4">
-                    <PrimaryButton className="bg-green-500 hover:bg-green-600 focus:outline-none">
+                    <PrimaryButton className="bg-blue-900 hover:bg-blue-800 focus:outline-none"> {/* Cambiar el color aquí */}
                         Enviar enlace de restablecimiento
                     </PrimaryButton>
                 </div>

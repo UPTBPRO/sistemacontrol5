@@ -4,9 +4,9 @@ import React from 'react';
 const CustomLogo = () => {
   return (
     <img
-      src="" // Reemplaza con la ruta correcta de tu logo
+      src="https://i.ibb.co/NF4368g/logo-conservatorio-PNG.png" // Reemplaza con la ruta correcta de tu logo
       alt="Logo institucional"
-      className="w-20 h-20" // Clases para el tamaño del logo
+      className="w-80 h-150" // Clases para el tamaño del logo
     />
   );
 };

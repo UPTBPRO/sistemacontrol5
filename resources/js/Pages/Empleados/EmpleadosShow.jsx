@@ -9,57 +9,60 @@ export default function EmpleadosShow({ empleados, auth }) {
         >
             <Head title="Empleados" />
 
-           
-        
-            <div className="row">
-                <Link href="#" className="btn btn-success mb-2 col-md-2">Agregar</Link>
-                
-            </div>
-            <div className="row">
-                <input style={{ width: "30%" }} type="text" name="txtBusqueda" id="txtBusqueda" className="col-md-3 form-control" placeholder="Busqueda"autoFocus/>
+            <div className="container mt-4">
+                <div className="row mb-3">
+                    <div className="col-md-4">
+                        <Link href="#" className="btn btn-success w-100">Agregar</Link>
+                    </div>
+                    <div className="col-md-8">
+                        <input
+                            type="text"
+                            name="txtBusqueda"
+                            id="txtBusqueda"
+                            className="form-control"
+                            placeholder="Búsqueda"
+                            autoFocus
+                        />
+                    </div>
+                </div>
 
-            </div>            
-        <table id="tblEmpleados" className="table table-bordered">
-          <thead>
-           <tr>
-            <th>Nombres</th>
-            <th>Apellidos</th>
-            <th>RIF/CI</th>
-            <th>Teléfono</th>
-            <th>Dirección</th>
-            <th>Editar</th>
-            <th>Eliminar</th>
-           </tr>
-          </thead>
-          <tbody>
-           
-          {empleados.map((empleado) => (
-            <tr key={empleado.id}>
-              <td>{ empleado.nombres }</td>
-              <td>{ empleado.apellidos }</td>
-              <td>{ empleado.documento }</td>
-              <td>{ empleado.telefono }</td>
-              <td>{ empleado.direccion }</td>
-              <td>
-              <Link className="btn btn-warning"
-               href="#">
-                <i class="fa">&#xf044;</i>
-              </Link>
-              </td>
-              <td>
-              <Link className="btn btn-danger"
-               href="#">
-                <i class="fas fa-trash"></i>
-              </Link>
-              </td>
-            </tr>
-           ))}
-           
-          </tbody>
-      
-      
-      
-       </table>
+                <div className="table-responsive">
+                    <table className="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>RIF/CI</th>
+                                <th>Teléfono</th>
+                                <th>Dirección</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {empleados.map((empleado) => (
+                                <tr key={empleado.id}>
+                                    <td>{empleado.nombres}</td>
+                                    <td>{empleado.apellidos}</td>
+                                    <td>{empleado.documento}</td>
+                                    <td>{empleado.telefono}</td>
+                                    <td>{empleado.direccion}</td>
+                                    <td>
+                                        <Link className="btn btn-warning" href="#">
+                                            Editar
+                                        </Link>
+                                    </td>
+                                    <td>
+                                        <Link className="btn btn-danger" href="#">
+                                            Eliminar
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </AuthenticatedLayout>
     );
 }

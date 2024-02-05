@@ -117,7 +117,7 @@ export default function Register() {
                         <PrimaryButton
                             className="ms-4"
                             disabled={processing}
-                            style={{ backgroundColor: '#34D399' }}
+                            style={{ backgroundColor: '#00427E' }} // Cambiar el color aquí
                         >
                             Registrar
                         </PrimaryButton>
