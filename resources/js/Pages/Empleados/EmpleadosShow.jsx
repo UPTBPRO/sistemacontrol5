@@ -12,7 +12,7 @@ export default function EmpleadosShow({ empleados, auth }) {
             <div className="container mt-4">
                 <div className="row mb-3">
                     <div className="col-md-4">
-                        <Link href="#" className="btn btn-success w-100">Agregar</Link>
+                        <Link href={route('empleadosCreate')} className="btn btn-success w-100">Agregar</Link>
                     </div>
                     <div className="col-md-8">
                         <input

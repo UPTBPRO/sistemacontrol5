@@ -17,10 +17,20 @@ use Inertia\Inertia;
 |
 */
 
+/* *****
+********************************
+*controlador EmpleadosController
+********************************
+* ******/
+
  //ruta para mostrar todos los empleados con react
 Route::get("/empleados", [EmpleadosController::class, "indexMostrar"])->middleware(['auth', 'verified'])->name("empleados");
 
-//ruta para modificar empleados con react
+//rutas para crear empleados
+Route::get("/empleadosCreate", [EmpleadosController::class, "create"])->middleware(['auth', 'verified'])->name("empleadosCreate");
+Route::post("/empleadosSave", [EmpleadosController::class, "createSave"])->middleware(['auth', 'verified'])->name("empleadosSave");
+
+//rutas para modificar empleados con react
 Route::post("/empleadosEdit", [EmpleadosController::class, "editar"])->middleware(['auth', 'verified'])->name("empleadosEdit");
 Route::post("/empleadosUpdate", [EmpleadosController::class, "editarStore"])->middleware(['auth', 'verified'])->name("empleadosUpdate");
 

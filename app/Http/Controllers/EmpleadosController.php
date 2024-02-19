@@ -22,18 +22,27 @@ class EmpleadosController extends Controller
     }
 
     //
-    //crear empleados
+    //crear empleados **********************************************************
 
-    public function crear()
+    public function create()
     {
 
-         
+        return Inertia::render('Empleados/EmpleadosCreate');
      
      
     }
 
+    public function createSave(Request $request)
+    {
+        $empleado = new Empleados($request->input());
+        $empleado->saveOrFail();
+        return redirect()->route("empleados");
+    }
+
+    /************************************************************************ */
+
     //
-    //editar empleados
+    //editar empleados **********************************************
 
     public function editar(Request $request)
     {
@@ -50,5 +59,7 @@ class EmpleadosController extends Controller
 
         return redirect()->route("empleados");
     }
+
+    //*************************************************************** */
 
 }
