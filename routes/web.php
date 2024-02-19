@@ -34,6 +34,9 @@ Route::post("/empleadosSave", [EmpleadosController::class, "createSave"])->middl
 Route::post("/empleadosEdit", [EmpleadosController::class, "editar"])->middleware(['auth', 'verified'])->name("empleadosEdit");
 Route::post("/empleadosUpdate", [EmpleadosController::class, "editarStore"])->middleware(['auth', 'verified'])->name("empleadosUpdate");
 
+//rutas para eliminar empleados con react
+Route::post("/empleadosDelete", [EmpleadosController::class, "eliminar"])->middleware(['auth', 'verified'])->name("empleadosDelete");
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

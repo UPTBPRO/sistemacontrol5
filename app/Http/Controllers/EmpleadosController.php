@@ -62,4 +62,15 @@ class EmpleadosController extends Controller
 
     //*************************************************************** */
 
+    //
+    //eliminar empleados **********************************************
+
+    public function eliminar(Request $request)
+    {
+        $empleado = Empleados::findOrFail($request->empleado);
+        $empleado->delete();
+        
+        return redirect()->route("empleados");
+    }
+
 }

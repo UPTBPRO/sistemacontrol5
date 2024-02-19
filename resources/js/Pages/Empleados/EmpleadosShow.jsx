@@ -53,7 +53,7 @@ export default function EmpleadosShow({ empleados, auth }) {
                                         </Link>
                                     </td>
                                     <td>
-                                        <Link className="btn btn-danger" href="#">
+                                        <Link className="btn btn-danger" href={route('empleadosDelete')} method="POST" data={{empleado: empleado.id}}>
                                             Eliminar
                                         </Link>
                                     </td>
