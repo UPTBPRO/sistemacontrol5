@@ -120,6 +120,9 @@ export default function Login() {
                             Iniciar sesión
                         </PrimaryButton>
                     </div>
+
+                    {/* Add a general error message for incorrect email or password */}
+                    <InputError message={errors.general} className="mt-2" />
                 </form>
             </div>
         </GuestLayout>

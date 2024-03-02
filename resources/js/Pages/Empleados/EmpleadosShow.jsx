@@ -1,7 +1,17 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link, Head } from '@inertiajs/react';
+import { useState } from 'react';
 
 export default function EmpleadosShow({ empleados, auth }) {
+    const [searchTerm, setSearchTerm] = useState('');
+
+    // Función para filtrar empleados
+    const filteredEmpleados = empleados.filter(empleado =>
+        empleado.nombres.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        empleado.apellidos.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        empleado.documento.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -22,6 +32,8 @@ export default function EmpleadosShow({ empleados, auth }) {
                             className="form-control"
                             placeholder="Búsqueda"
                             autoFocus
+                            value={searchTerm}
+                            onChange={e => setSearchTerm(e.target.value)}
                         />
                     </div>
                 </div>
@@ -40,7 +52,7 @@ export default function EmpleadosShow({ empleados, auth }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {empleados.map((empleado) => (
+                            {filteredEmpleados.map((empleado) => (
                                 <tr key={empleado.id}>
                                     <td>{empleado.nombres}</td>
                                     <td>{empleado.apellidos}</td>
