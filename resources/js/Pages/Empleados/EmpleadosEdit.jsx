@@ -3,27 +3,39 @@ import React, { useEffect, useState } from "react";
 import { Link, Head, router } from '@inertiajs/react';
 
 export default function EmpleadosEdit({ empleado, auth }) {
-    const [id, setId] = useState('')
-    const [nombres, setNombres] = useState('')
-    const [apellidos, setApellidos] = useState('')
-    const [documento, setDocumento] = useState('')
-    const [telefono, setTelefono] = useState('')
-    const [direccion, setDireccion] = useState('')
-    
+    const [id, setId] = useState('');
+    const [nombres, setNombres] = useState('');
+    const [apellidos, setApellidos] = useState('');
+    const [documentoPrefix, setDocumentoPrefix] = useState('');
+    const [documentoNumber, setDocumentoNumber] = useState('');
+    const [telefono, setTelefono] = useState('');
+    const [direccion, setDireccion] = useState('');
 
     useEffect(() => {
-        setId(empleado.id)
-        setNombres(empleado.nombres)
-        setApellidos(empleado.apellidos)
-        setDocumento(empleado.documento)
-        setTelefono(empleado.telefono)
-        setDireccion(empleado.direccion)
+        setId(empleado.id);
+        setNombres(empleado.nombres);
+        setApellidos(empleado.apellidos);
+        // Separar el prefijo del número del documento
+        const [prefix, number] = empleado.documento.split('-');
+        setDocumentoPrefix(prefix);
+        setDocumentoNumber(number);
+        setTelefono(empleado.telefono);
+        setDireccion(empleado.direccion);
     }, []);
 
     const updateEmpleado = (e) => {
         e.preventDefault();
+        // Concatenar el prefijo y el número del documento
+        const documento = documentoPrefix + '-' + documentoNumber;
         router.post(route('empleadosUpdate'), { id, nombres, apellidos, documento, telefono, direccion });
     };
+
+    // Función para permitir solo números en el campo de teléfono
+    const handleTelefonoChange = (e) => {
+        // Eliminar caracteres no numéricos usando una expresión regular
+        const value = e.target.value.replace(/\D/g, '');
+        setTelefono(value);
+    }
 
     return (
         <AuthenticatedLayout
@@ -33,7 +45,6 @@ export default function EmpleadosEdit({ empleado, auth }) {
             <Head title="Empleados" />
 
             <div className="container mt-4">
-               
                 <div className="card">
                     <div className="card-body">
                         <form onSubmit={updateEmpleado}>
@@ -45,7 +56,7 @@ export default function EmpleadosEdit({ empleado, auth }) {
                                     id="nombres"
                                     value={nombres}
                                     onChange={(e) => setNombres(e.target.value)}
-                                    placeholder=""
+                                    required
                                 />
                             </div>
                             <div className="form-group">
@@ -56,19 +67,33 @@ export default function EmpleadosEdit({ empleado, auth }) {
                                     id="apellidos"
                                     value={apellidos}
                                     onChange={(e) => setApellidos(e.target.value)}
-                                    placeholder=""
+                                    required
                                 />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="documento">Documento</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="documento"
-                                    value={"V- " + documento} // Agregar "V- " antes del valor del documento
-                                    onChange={(e) => setDocumento(e.target.value.replace(/^V- /, ""))}
-                                    placeholder=""
-                                />
+                                <div className="d-flex">
+                                    {/* Menú desplegable para el prefijo del documento */}
+                                    <select
+                                        className="form-control mr-2"
+                                        value={documentoPrefix}
+                                        onChange={(e) => setDocumentoPrefix(e.target.value)}
+                                        disabled // Deshabilitar el campo de selección
+                                    >
+                                        <option value="V-">V-</option>
+                                        <option value="E-">E-</option>
+                                    </select>
+                                    {/* Campo de texto para el número del documento */}
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="documento"
+                                        value={documentoNumber}
+                                        onChange={(e) => setDocumentoNumber(e.target.value)}
+                                        disabled // Deshabilitar el campo de texto
+                                        required
+                                    />
+                                </div>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="telefono">Telefono</label>
@@ -77,8 +102,8 @@ export default function EmpleadosEdit({ empleado, auth }) {
                                     className="form-control"
                                     id="telefono"
                                     value={telefono}
-                                    onChange={(e) => setTelefono(e.target.value)}
-                                    placeholder=""
+                                    onChange={handleTelefonoChange} // Utilizar la función de manejo de cambio de teléfono
+                                    required
                                 />
                             </div>
                             <div className="form-group">
@@ -89,10 +114,9 @@ export default function EmpleadosEdit({ empleado, auth }) {
                                     id="direccion"
                                     value={direccion}
                                     onChange={(e) => setDireccion(e.target.value)}
-                                    placeholder=""
+                                    required
                                 />
                             </div>
-                            
                             <div className="form-group mt-3">
 		                        <button className="btn btn-success">Guardar</button>
 		                        <Link href={route('empleados')} className="btn btn-primary">Volver al listado</Link>
@@ -100,8 +124,6 @@ export default function EmpleadosEdit({ empleado, auth }) {
                         </form>
                     </div>
                 </div>
-
-                
             </div> {/* container mt-4 */}
         </AuthenticatedLayout>
     );

@@ -1,217 +1,140 @@
-import { Link, Head } from '@inertiajs/react';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import React, { useState } from "react";
+import { Link, Head, router } from '@inertiajs/react';
 
-export default function SimpleMenu({ auth }) {
+export default function EmpleadosCreate({ auth }) {
+
+    const [nombres, setNombres] = useState('');
+    const [apellidos, setApellidos] = useState('');
+    const [documentoPrefix, setDocumentoPrefix] = useState('V-'); // Estado para el prefijo del documento
+    const [documentoNumber, setDocumentoNumber] = useState(''); // Estado para el número del documento
+    const [telefono, setTelefono] = useState('');
+    const [direccion, setDireccion] = useState('');
+
+    const saveData = (e) => {
+        e.preventDefault();
+        // Concatenar el prefijo y el número del documento
+        const documento = documentoPrefix + documentoNumber;
+        router.post(route('empleadosSave'), { nombres, apellidos, documento, telefono, direccion });
+    }
+
+    const handleDocumentoPrefixChange = (e) => {
+        // Actualizar el prefijo del documento
+        setDocumentoPrefix(e.target.value);
+    }
+
+    const handleDocumentoNumberChange = (e) => {
+        // Verificar que solo se ingresen números en el campo del número del documento
+        const value = e.target.value.replace(/\D/, ''); // Eliminar caracteres no numéricos
+        setDocumentoNumber(value);
+    }
+
+    const handleTelefonoChange = (e) => {
+        // Verificar que solo se ingresen números en el campo del teléfono
+        const value = e.target.value.replace(/\D/, ''); // Eliminar caracteres no numéricos
+        setTelefono(value);
+    }
+
     return (
-        <>
-            <Head title="Bienvenido" />
-            <div className="container" id="container">
-                <style>
-                    {`
-                        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-                        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,500&display=swap');
-                        
-                        * {
-                            margin: 0;
-                            padding: 0;
-                            box-sizing: border-box;
-                            font-family: 'Montserrat', sans-serif;
-                        }
-                        
-                        body {
-                            background-color: #c9d6ff;
-                            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            flex-direction: column;
-                            height: 100vh;
-                        }
-                        
-                        .container {
-                            background-color: #2d33a8;
-                            border-radius: 30px;
-                            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
-                            position: relative;
-                            width: 768px;
-                            max-width: 100%;
-                            min-height: 480px;
-                        }
-                        
-                        .container p {
-                            font-size: 14px;
-                            line-height: 20px;
-                            letter-spacing: 0.3px;
-                            margin: 20px 0;
-                        }
-                        
-                        .container span {
-                            font-size: 12px;
-                        }
-                        
-                        .btn-iniciar-sesion {
-                            background-color: #2d48a8;
-                            color: #fff;
-                            font-size: 12px;
-                            padding: 10px 45px;
-                            border: 1px solid transparent;
-                            border-radius: 8px;
-                            font-weight: 600;
-                            letter-spacing: 0.5px;
-                            text-transform: uppercase;
-                            margin-top: 10px;
-                            cursor: pointer;
-                            width: 100%;
-                        }
-                        
-                        .btn-registrarse {
-                            background-color: #1fcb2a;
-                            color: #fff;
-                            font-size: 12px;
-                            padding: 10px 45px;
-                            border: 1px solid transparent;
-                            border-radius: 8px;
-                            font-weight: 600;
-                            letter-spacing: 0.5px;
-                            text-transform: uppercase;
-                            margin-top: 10px;
-                            cursor: pointer;
-                            width: 100%;
-                        }
-                        
-                        .container form {
-                            background-color: #2d33a8;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            flex-direction: column;
-                            padding: 200px 40px; /* Ajuste del espacio alrededor del contenido */
-                            height: 100%;
-                        }
-                        
-                        .form-container {
-                            top: 0;
-                            height: 100%;
-                        }
-                        
-                        .inicia-sesion {
-                            left: 0;
-                            width: 50%;
-                        }
-                        
-                        .toggle-container {
-                            position: absolute;
-                            top: 0;
-                            left: 50%;
-                            width: 50%;
-                            height: 100%;
-                            overflow: hidden;
-                            transition: all 0.6s ease-in-out;
-                            border-radius: 50px 0 0 50px;
-                        }
-                        
-                        .toggle {
-                            background-color: #f8f2f2;
-                            height: 100%;
-                            background: whitesmoke;
-                            color: #fff;
-                            position: relative;
-                            left: -100%;
-                            height: 100%;
-                            width: 200%;
-                        }
-                        
-                        .toggle-panel {
-                            position: absolute;
-                            width: 50%;
-                            height: 100%;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            flex-direction: column;
-                            padding: 0 30px;
-                            text-align: center;
-                            top: 0;
-                        }
-                        
-                        .toggle-derecha {
-                            right: 0;
-                        }
-                        
-                        .logo {
-                            width: 100%;
-                            margin: 0;
-                            padding-bottom: 20px;
-                            padding-top: 20px;
-                        }
-                        
-                        .vision {
-                            font-style: italic;
-                            font-weight: 100;
-                        }
-                        
-                        .btn-iniciar-sesion:hover {
-                            background: #021c78;
-                        }
-                        
-                        .btn-registrarse:hover {
-                            background: #12811a;
-                        }
-                        
-                        p {
-                            color: black;
-                        }
-                        
-                        h1 {
-                            color: white;
-                            font-size: 30px;
-                            font-weight: 600;
-                            margin-bottom: 20px;
-                        }
-                        
-                        .container {
-                            border-radius: 5px;
-                        }
-                    `}
-                </style>
-                <div className="form-container inicia-sesion">
-                    <form>
-                        <h1>Bienvenido a SGCOMCAR</h1>
-                        {auth.user ? (
-                            <Link
-                                href={route('dashboard')}
-                                className="btn-iniciar-sesion"
-                            >
-                                Inicio
-                            </Link>
-                        ) : (
-                            <>
-                                <Link
-                                    href={route('login')}
-                                    className="btn-iniciar-sesion"
-                                >
-                                    Iniciar Sesión
-                                </Link>
+        <AuthenticatedLayout
+            user={auth.user}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Crear Empleado</h2>}
+        >
+            <Head title="Empleados" />
 
-                                <Link
-                                    href={route('register')}
-                                    className="btn-registrarse"
-                                >
-                                    Registrarse
-                                </Link>
-                            </>
-                        )}
-                    </form>
-                </div>
-                <div className="toggle-container">
-                    <div className="toggle">
-                        <div className="toggle-panel toggle-izquierda"></div>
-                        <div className="toggle-panel toggle-derecha">
-                            <img className="logo" src="https://i.ibb.co/NF4368g/logo-conservatorio-PNG.png" alt="Logo de la institución" />
-                            <p className="vision">"Ser la institución musical por excelencia. Brindando asesoría permanente y acompañamiento humanista integral, a antiguas y nuevas generaciones de músicos de la región; y, generando en ellos compromiso hacia la formación académica, la investigación, la extensión comunitaria y la promoción, como herramientas para la transmisión generacional de los autores, sus obras y los valores que nos auto determinan culturalmente como pueblo".</p>
+            <div className="container mt-4">
+                
+                <form onSubmit={saveData}>
+
+                    <div className="form-group">
+                        <label htmlFor="nombres">Nombres</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="nombres"
+                            name="nombres"
+                            value={nombres}
+                            onChange={e => setNombres(e.target.value)}
+                            autoComplete="off"
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="apellidos">Apellidos</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="apellidos"
+                            name="apellidos"
+                            value={apellidos}
+                            onChange={e => setApellidos(e.target.value)}
+                            autoComplete="off"
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="documento">Documento</label>
+                        <div className="d-flex">
+                            {/* Menú desplegable para el prefijo del documento */}
+                            <select
+                                className="form-control mr-2"
+                                value={documentoPrefix}
+                                onChange={handleDocumentoPrefixChange}
+                            >
+                                <option value="V-">V-</option>
+                                <option value="E-">E-</option>
+                            </select>
+                            {/* Campo de texto para el número del documento */}
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="documento"
+                                name="documento"
+                                value={documentoNumber}
+                                onChange={handleDocumentoNumberChange}
+                                autoComplete="off"
+                                required
+                            />
                         </div>
                     </div>
-                </div>
+
+                    <div className="form-group">
+                        <label htmlFor="telefono">Telefono</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="telefono"
+                            name="telefono"
+                            value={telefono}
+                            onChange={handleTelefonoChange} // Usar la nueva función de manejo de cambio para verificar números
+                            autoComplete="off"
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="direccion">Dirección</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="direccion"
+                            name="direccion"
+                            value={direccion}
+                            onChange={e => setDireccion(e.target.value)}
+                            autoComplete="off"
+                            required
+                        />
+                    </div>
+
+                    <div className="form-group mt-3">
+                        <button className="btn btn-success mr-2">Guardar</button>
+                        <Link href={route('empleados')} className="btn btn-primary">Volver al listado</Link>
+                    </div>
+                </form>
+                
             </div>
-        </>
+        </AuthenticatedLayout>
     );
 }
